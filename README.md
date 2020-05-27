@@ -1,5 +1,7 @@
 # kv
 
+[![Build Status](https://travis-ci.com/xkortex/kv.svg?branch=master)](https://travis-ci.com/xkortex/kv)
+
 `kv` is a simple command line key-value utility. 
 Ever find yourself wishing bash had python-style dicts? `kv` fills that niche.
 
