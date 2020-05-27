@@ -14,8 +14,7 @@ fmt:
 test:
 	bash tests/basic.sh
 
-release:
-	linux_64 darwin_64
+release: linux_64 darwin_64
 
 linux_86:
 	CGO_ENABLED=0 GOOS=linux GOARCH=386 go build -i -ldflags="-X 'main.Version=${VERSION}'" -o build/kv-Linux-i386
