@@ -7,12 +7,12 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/xkortex/xac/kv/util"
+	"github.com/xkortex/kv/util"
 )
 
 // dirnameCmd represents the dirname command
 var pathCmd = &cobra.Command{
-	Use:   "path",
+	Use:     "path",
 	Aliases: []string{"p"},
 
 	Short: "Get the directory name of the kv store",

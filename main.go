@@ -1,9 +1,9 @@
 package main
 
 import (
-  "github.com/xkortex/xac/kv/cmd"
+	"github.com/xkortex/xac/kv/cmd"
 )
 
 func main() {
-  cmd.Execute()
+	cmd.Execute()
 }

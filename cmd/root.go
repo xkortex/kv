@@ -5,10 +5,10 @@ Copyright © 2019 MICHAEL McDERMOTT
 package cmd
 
 import (
-	"github.com/xkortex/xac/kv/util"
-	"log"
-
 	"github.com/spf13/cobra"
+	"github.com/xkortex/vprint"
+	"log"
+	"os"
 )
 
 var developer string
@@ -25,14 +25,15 @@ Examples:
     $ kv foo                      # Get value of foo
     spam`,
 	Run: func(cmd *cobra.Command, args []string) {
-		util.Vprint("root called")
-		util.Vprint(args)
+		vprint.Println("root called")
+		vprint.Println(args)
 		ns, _ := cmd.PersistentFlags().GetString("namespace")
-		util.Vprint(ns)
+		vprint.Println(ns)
 		//if err := cmd.Usage(); err != nil {
 		//	log.Fatalf("Error executing root command: %v", err)
 		//}
-		log.Fatal(cmd.SilenceErrors, cmd.SilenceUsage)
+		_ = cmd.Help()
+		os.Exit(0)
 
 	},
 }
@@ -61,11 +62,11 @@ func init() {
 	// is called directly, e.g.:
 	RootCmd.PersistentFlags().BoolP("silent", "s", false, "Suppress errors")
 	RootCmd.PersistentFlags().BoolP("stdin", "-", false, "Read from standard in")
-	RootCmd.Flags().BoolP("verbose", "v", false, "Verbose tracing (in progress)")
-	RootCmd.PersistentFlags().StringVar(&developer, "developer", "Unknown Developer!", "Developer name.")
+	RootCmd.PersistentFlags().BoolP("verbose", "v", false, "Verbose tracing (in progress)")
+	RootCmd.PersistentFlags().BoolP("version", "V", false, "Print version and quit")
 
 }
 
 func initConfig() {
-// todo: use init config to do stuff based on env
+	// todo: use init config to do stuff based on env
 }

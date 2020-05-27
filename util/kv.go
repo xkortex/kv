@@ -148,7 +148,7 @@ func Pop_value(lookup_file string, key string) (string, error) {
 
 }
 
-func Delete_value(lookup_file string, key string) (error) {
+func Delete_value(lookup_file string, key string) error {
 	Vprint("Deleting [%s] (%s)", key, lookup_file)
 	_, err := Pop_value(lookup_file, key)
 	return err
@@ -195,7 +195,7 @@ func GetLookupPath(namespace string, key string) string {
 }
 
 // This should always return a key, or fail/go to help
-func parseCLI() (ParsedArgs) {
+func parseCLI() ParsedArgs {
 	parsed_args := ParsedArgs{mode: ModeHelp, err_code: 0}
 
 	// separate flags from args - this is rapidly getting out of hand
@@ -262,7 +262,7 @@ func parseCLI() (ParsedArgs) {
 		}
 
 		if stdin_struct.Has_stdin {
-			if (len(key_val) == 2) {
+			if len(key_val) == 2 {
 				log.Fatal("Cannot use `key=val` with pipe in")
 			} else {
 				parsed_args.key = strings.TrimSpace(key_val[0])
@@ -274,7 +274,7 @@ func parseCLI() (ParsedArgs) {
 				}
 			}
 		} else {
-			if (len(key_val) == 2) {
+			if len(key_val) == 2 {
 				parsed_args.key = strings.TrimSpace(key_val[0])
 				parsed_args.val = strings.TrimSpace(key_val[1])
 				parsed_args.mode = ModeSimpleSet
@@ -324,7 +324,7 @@ func List_all(lookup_path string) {
 				rel = rel + "/"
 			}
 			tmp := []string{key, string(dat)}
-			fmt.Print( rel )
+			fmt.Print(rel)
 			fmt.Println(strings.Join(tmp, ": "))
 		}
 	}

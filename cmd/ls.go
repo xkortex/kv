@@ -6,21 +6,22 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/xkortex/xac/kv/util"
+	"github.com/xkortex/kv/util"
+	"github.com/xkortex/vprint"
 )
 
 // lsCmd represents the ls command
 var lsCmd = &cobra.Command{
-	Use:   "ls",
+	Use:     "ls",
 	Aliases: []string{"l", "list"},
 
 	Short: "List values",
-	Long: `List values present in the store`,
+	Long:  `List values present in the store`,
 	Run: func(cmd *cobra.Command, args []string) {
 		ns, _ := cmd.Flags().GetString("namespace")
 
 		lookup_path := util.GetLookupPath(ns, "")
-		util.Vprint(lookup_path)
+		vprint.Println(lookup_path)
 		util.List_all(lookup_path)
 	},
 }

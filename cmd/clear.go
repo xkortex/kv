@@ -5,11 +5,11 @@ Copyright © 2019 MICHAEL McDERMOTT
 package cmd
 
 import (
-	"github.com/xkortex/xac/kv/util"
+	"github.com/spf13/cobra"
+	"github.com/xkortex/kv/util"
+	"github.com/xkortex/vprint"
 	"log"
 	"os"
-
-	"github.com/spf13/cobra"
 )
 
 // clearCmd represents the clear command
@@ -22,7 +22,7 @@ namespaces as well. `,
 		ns, _ := cmd.Flags().GetString("namespace")
 		silent, _ := cmd.Flags().GetBool("silent")
 		lookup_path := util.GetLookupPath(ns, "")
-		util.Vprint("Clearing: ", lookup_path)
+		vprint.Println("Clearing: ", lookup_path)
 		err := os.RemoveAll(lookup_path)
 		if err != nil && !silent {
 			log.Fatal(err)

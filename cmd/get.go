@@ -7,17 +7,17 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
-	"github.com/xkortex/xac/kv/util"
+	"github.com/xkortex/kv/util"
 	"log"
 )
 
 // getCmd represents the get command
 var getCmd = &cobra.Command{
-	Use:   "get",
+	Use:     "get",
 	Aliases: []string{"g"},
 
 	Short: "Get a value from the store",
-	Long: `Attempts to get a value from the store given the provided key`,
+	Long:  `Attempts to get a value from the store given the provided key`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) != 1 {
 			panic("/\\--/\\ Must have exactly one arguments (handling under construction)")
@@ -27,7 +27,7 @@ var getCmd = &cobra.Command{
 
 		key := args[0]
 		lookup_path := util.GetLookupPath(ns, key)
-		util.Vprint(lookup_path)
+		vprint.Println(lookup_path)
 		val, err := util.Read_value(lookup_path, key)
 		if err != nil && !silent {
 			log.Fatal(err)
