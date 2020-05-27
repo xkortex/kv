@@ -6,11 +6,10 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/spf13/cobra"
 	"github.com/xkortex/kv/util"
 	"github.com/xkortex/vprint"
 	"log"
-
-	"github.com/spf13/cobra"
 )
 
 // popCmd represents the pop command

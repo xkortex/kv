@@ -11,6 +11,7 @@ import (
 	"bufio"
 	"fmt"
 	"github.com/Wessie/appdirs"
+	"github.com/xkortex/vprint"
 	"hash/fnv"
 	"io"
 	"io/ioutil"
@@ -149,7 +150,7 @@ func Pop_value(lookup_file string, key string) (string, error) {
 }
 
 func Delete_value(lookup_file string, key string) error {
-	Vprint("Deleting [%s] (%s)", key, lookup_file)
+	vprint.Println("Deleting [%s] (%s)", key, lookup_file)
 	_, err := Pop_value(lookup_file, key)
 	return err
 }
@@ -227,7 +228,7 @@ func parseCLI() ParsedArgs {
 			parsed_args.mode = ModeDelete
 		}
 		if val, ok := bOptions[FlagVerbose]; ok && val {
-			Vprint("Verbose is on")
+			vprint.Println("Verbose is on")
 		}
 
 	}
@@ -363,13 +364,13 @@ func kv_main() {
 	}
 
 	lookup_key := Hashx(parsed_args.key)
-	lookup_path := appdirs.UserDataDir("xac", "", "", false)
+	lookup_path := appdirs.UserDataDir("kv", "", "", false)
 	lookup_file := lookup_path + "/" + lookup_key
-	Vprint("path: ", lookup_path)
-	Vprint("lfile: ", lookup_file)
-	Vprint("flags: ", parsed_args.flags)
-	Vprint("args: ", parsed_args.args)
-	Vprint("mode: ", parsed_args.mode)
+	vprint.Println("path: ", lookup_path)
+	vprint.Println("lfile: ", lookup_file)
+	vprint.Println("flags: ", parsed_args.flags)
+	vprint.Println("args: ", parsed_args.args)
+	vprint.Println("mode: ", parsed_args.mode)
 
 	if _, err := os.Stat(lookup_path); os.IsNotExist(err) {
 		_ = os.MkdirAll(lookup_path, os.ModePerm)

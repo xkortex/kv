@@ -5,13 +5,21 @@ Copyright © 2019 MICHAEL McDERMOTT
 package cmd
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"github.com/xkortex/vprint"
 	"log"
 	"os"
 )
 
-var developer string
+var (
+	Version = "unset"
+)
+
+func PrintVersionAndQuit() {
+	fmt.Println(Version)
+	os.Exit(0)
+}
 
 // RootCmd represents the root command
 var RootCmd = &cobra.Command{
@@ -25,8 +33,12 @@ Examples:
     $ kv foo                      # Get value of foo
     spam`,
 	Run: func(cmd *cobra.Command, args []string) {
-		vprint.Println("root called")
-		vprint.Println(args)
+		vprint.Println("root: ", args)
+		doVersion, _ := cmd.Flags().GetBool("version")
+		if doVersion {
+			PrintVersionAndQuit()
+
+		}
 		ns, _ := cmd.PersistentFlags().GetString("namespace")
 		vprint.Println(ns)
 		//if err := cmd.Usage(); err != nil {

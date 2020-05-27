@@ -13,14 +13,14 @@ COPY . ./
 
 RUN go get
 
-RUN make static
+RUN make
 
 FROM build as inline_test
 
-RUN ./tests/end2end.sh
+RUN ./tests/basic.sh
 
 FROM scratch
 
-COPY --from=build /go/bin/passcrux /go/bin/passcrux
+COPY --from=build /go/bin/kv /go/bin/kv
 
-ENTRYPOINT ["/go/bin/passcrux"]
+ENTRYPOINT ["/go/bin/kv"]
