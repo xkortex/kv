@@ -1,6 +1,7 @@
 # kv
 
 [![Build Status](https://travis-ci.com/xkortex/kv.svg?branch=master)](https://travis-ci.com/xkortex/kv)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxkortex%2Fkv.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxkortex%2Fkv?ref=badge_shield)
 
 `kv` is a simple command line key-value utility. 
 Ever find yourself wishing bash had python-style dicts? `kv` fills that niche.
@@ -20,3 +21,7 @@ This is for very simple use cases! For more critical purposes, look at `redis`, 
 
 
 Namespaces `-n` allow you to use the same key in different contexts.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fxkortex%2Fkv.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fxkortex%2Fkv?ref=badge_large)
