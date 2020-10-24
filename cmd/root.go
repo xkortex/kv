@@ -73,7 +73,7 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	RootCmd.PersistentFlags().BoolP("silent", "s", false, "Suppress errors")
-	RootCmd.PersistentFlags().BoolP("stdin", "-", false, "Read from standard in")
+	RootCmd.PersistentFlags().BoolP("stdin", "r", false, "Read from standard in")
 	RootCmd.PersistentFlags().BoolP("verbose", "v", false, "Verbose tracing (in progress)")
 	RootCmd.PersistentFlags().BoolP("version", "V", false, "Print version and quit")
 

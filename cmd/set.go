@@ -21,6 +21,8 @@ var setCmd = &cobra.Command{
 standard in`,
 	Run: func(cmd *cobra.Command, args []string) {
 		stdin_struct, err := util.Get_stdin()
+		useStdin, _ := cmd.Flags().GetBool("stdin")
+
 		vprint.Println(args, stdin_struct.Stdin)
 		util.Panic_if(err)
 		if len(args) == 0 {
@@ -29,8 +31,11 @@ standard in`,
 		key := args[0]
 
 		val := ""
-		if stdin_struct.Has_stdin {
+		// stdin is separately flagged out because when used with ssh, stdin autodetect is ambiguous
+		if useStdin && stdin_struct.Has_stdin {
 			val = stdin_struct.Stdin
+		} else if useStdin && !stdin_struct.Has_stdin {
+			panic("stdin flag provided but no stdin detected")
 		} else if len(args) > 1 {
 			val = strings.Join(args[1:], " ")
 		} else {
