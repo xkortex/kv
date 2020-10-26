@@ -7,12 +7,13 @@ const DBPATH: &str = "/tmp/kv.db";
 
 use clap::{App, Arg};
 use std::{env};
-use std::time::{Duration, Instant};
+use std::time::{Instant};
 use std::io::{stdout, stderr};
 use termion::{color};
+use log;
+use env_logger;
 
 use kv::*;
-use std::borrow::Borrow;
 
 #[derive(serde::Serialize, serde::Deserialize, PartialEq)]
 struct SomeType {
@@ -21,8 +22,8 @@ struct SomeType {
 }
 
 fn run() -> Result<(), Error> {
-    let stdout = stdout();
-    let stderr = stderr();
+    let _stdout = stdout();
+    let _stderr = stderr();
     let matches = App::new("kv")
         .version(crate_version!())
         .author(crate_authors!())
@@ -67,7 +68,7 @@ fn run() -> Result<(), Error> {
 
 
     // Configure the database
-    let mut cfg = Config::new(DBPATH);
+    let cfg = Config::new(DBPATH);
 
     // Open the key/value store
     let store = Store::new(cfg)?;
@@ -83,21 +84,25 @@ fn run() -> Result<(), Error> {
         let val = mval.unwrap();
         let now = Instant::now();
 
-        set(bucket, key.into(), val.into());
-        eprintln!("{}{}: {} -> {}", color::Fg(color::Yellow), "ok set", key, val );
-        eprintln!("{}{}: {}", color::Fg(color::Yellow), "elapsed", now.elapsed().as_micros());
+        set(bucket, key.into(), val.into())?;
+        log::debug!("{}{}: {} -> {}", color::Fg(color::Yellow), "ok set", key, val );
+        log::debug!("{}{}: {}", color::Fg(color::Yellow), "elapsed", now.elapsed().as_micros());
 
         store.export();
-        eprintln!("{}{}: {}", color::Fg(color::Yellow), "elapsed", now.elapsed().as_micros());
+        log::debug!("{}{}: {}", color::Fg(color::Yellow), "elapsed", now.elapsed().as_micros());
 
         return Ok(());
     }
     if matches.is_present("get") {
 
-        eprintln!("{}{}: {}", color::Fg(color::Yellow), "ok get", key);
+        log::debug!("{}{}: {}", color::Fg(color::Yellow), "ok get", key);
         let now = Instant::now();
-        let outval = bucket.get(key).unwrap().unwrap();
-        eprintln!("{}{}: {}", color::Fg(color::Yellow), "elapsed", now.elapsed().as_micros());
+        let outval = match get(bucket,key) {
+            Ok(vopt) => vopt,
+            Err(e) => { log::error!("{}", e) ;
+                String::from("")}
+        };
+        log::debug!("{}{}: {}", color::Fg(color::Yellow), "elapsed", now.elapsed().as_micros());
         println!("{}", outval);
 
         return Ok(());
@@ -109,16 +114,18 @@ fn run() -> Result<(), Error> {
 }
 
  fn main() {
+     env_logger::init();
      run().unwrap();
  }
 
-fn set(b: Bucket<String, String>, k: String, v: String) -> bool {
-    b.set(k, v);
-    return true
+fn set(b: Bucket<String, String>, k: String, v: String) -> Result<(), Error> {
+    let x = b.set(k, v);
+    return x
 }
 
-fn get(b: Bucket<String, String>, k: String) -> String {
-    return b.get(k).unwrap().unwrap();
-
+fn get(b: Bucket<String, String>, k: &str) -> Result<String, Error> {
+    let vopt = b.get(k)?; // handles b.get(k) => Ok,Err
+    let v = vopt.ok_or(Error::Message(String::from("ouch, key is empty")));
+    return v
 }
 
